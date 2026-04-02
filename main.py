@@ -1,15 +1,33 @@
 import os
+import argparse
 
 from RTDMFT import DMFTSolver
 from Utility import plot_results, compute_spectral_function_with_interpolation, plot_high_resolution_results
 
 def main():
 
-    U = 8.0
-    t = 1.0
+    parser = argparse.ArgumentParser(description='RT-DMFT solver for the Hubbard model')
+    parser.add_argument('tHop',metavar='t',type=float,
+                    help='hopping amplitude')
+    parser.add_argument('U',metavar='U',type=float,
+                        help='Coulomb interaction strength')
+    parser.add_argument('t_max',metavar='tMax',type=float, default=20.0,
+                        help='maximum time for the simulation (default: 20.0)')
+    parser.add_argument('n_time',metavar='nTime',type=int, default=100,
+                        help='number of time points (default: 100)')
+    parser.add_argument('eta', metavar='eTa', type=float, default=0.2,
+                        help='broadening parameter for spectral function (default: 0.2)')
+    args = parser.parse_args()
+
+    U = args.U
+    t = args.tHop
+    t_max = args.t_max
+    n_time = args.n_time
+    eta = args.eta
+
 
     print("Creating DMFT solver...")
-    solver = DMFTSolver(U=U, t=t, t_max=20.0, n_time=100, eta=0.2)
+    solver = DMFTSolver(U=U, t=t, t_max=t_max, n_time=n_time, eta=eta)
 
     # Run DMFT
     history = solver.run(max_iter=200, tol=1e-4, mixing=0.2)
