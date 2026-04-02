@@ -7,15 +7,19 @@ from Utility import plot_results, compute_spectral_function_with_interpolation, 
 def main():
 
     parser = argparse.ArgumentParser(description='RT-DMFT solver for the Hubbard model')
+
+    # required positional arguments
     parser.add_argument('tHop',metavar='t',type=float,
                     help='hopping amplitude')
     parser.add_argument('U',metavar='U',type=float,
                         help='Coulomb interaction strength')
-    parser.add_argument('t_max',metavar='tMax',type=float, default=20.0,
+
+    # optional aruments with default values
+    parser.add_argument('--t_max',metavar='tMax',type=float, default=20.0,
                         help='maximum time for the simulation (default: 20.0)')
-    parser.add_argument('n_time',metavar='nTime',type=int, default=100,
+    parser.add_argument('--n_time',metavar='nTime',type=int, default=100,
                         help='number of time points (default: 100)')
-    parser.add_argument('eta', metavar='eTa', type=float, default=0.2,
+    parser.add_argument('--eta', metavar='eTa', type=float, default=0.2,
                         help='broadening parameter for spectral function (default: 0.2)')
     args = parser.parse_args()
 
