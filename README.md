@@ -1,9 +1,9 @@
+# Real-Time DMFT: A Framework for Near-Term Quantum Simulation
+This repository provides the numerical implementation of a real-time iteration scheme for Dynamical Mean-Field Theory (DMFT), serving as a framework for near-term quantum simulation of the Hubbard model.
 
-# Real-Time DMFT Iteration Scheme for the Hubbard Model
-
-This repository contains the numerical implementation of the real-time iteration scheme for **Dynamical Mean-Field Theory (DMFT)** as presented in:
-
-> **"Real-time Dynamical Mean-Field Theory iteration scheme"**
+Developed as supporting code for:
+> **"Real-Time Iteration Scheme for Dynamical Mean-Field Theory: A Framework for
+Near-Term Quantum Simulation"**
 > *Chakradhar Rangi, et al.*
 > **Paper Link:** [arXiv:2601.19896](https://arxiv.org/abs/2601.19896)
 
@@ -11,13 +11,20 @@ This repository contains the numerical implementation of the real-time iteration
 
 This toolkit provides a framework to solve the **half-filled Hubbard model** on a **Bethe lattice** using an Exact Diagonalization (ED) impurity solver. Unlike traditional DMFT which often operates in Matsubara frequency, this implementation performs the self-consistency loop directly in the **time domain**.
 
+Quantum Advantage Context: Real-time Green's functions are a "natural" output for quantum computers, as time-evolution operators ($e^{−iHt}$) can be directly implemented via Trotterization or variational circuits. This repository serves as the classical backbone for such hybrid quantum-classical workflows.
+
 ### Scientific Goals
 
-The primary goal of this code is to investigate the Metal-Insulator Transition (MIT) and the evolution of spectral functions $A(\omega)$ for varying interaction strengths $U$. By utilizing a real-time Green's function approach, the solver can capture dynamic properties without the need for numerical analytic continuation.
+- Real-Time Dynamics: Capture the Metal-Insulator Transition (MIT) and spectral evolution directly through real-time Green's functions.
+
+- NISQ-Ready Mapping: Provide a template for mapping the 6-site impurity problem (1 impurity + 5 bath sites) onto quantum registers.
+
+- Benchmarking: Establish high-precision classical results for spectral functions $A(ω)$ to validate future near-term quantum simulations.
+
 
 ## Computational Method
 
-1.  **Impurity Solver:** Uses a 6-site chain (1 impurity + 5 bath sites) Anderson impurity model solved via Exact Diagonalization.
+1.  **Impurity Solver:** A 6-site Anderson impurity model solved via Exact Diagonalization (ED). In a quantum workflow, this ED step is the primary candidate for replacement by a quantum sub-routine.
 2.  **Lehmann Representation:** The impurity Green’s function $G_{imp}(t)$ is computed in the time domain using the Lehmann representation.
 3.  **Time-Domain Fitting:** The hybridization function $\Delta(t)$ is fitted to the bath parameters through a least-squares optimization on the real-time grid.
 4.  **High-Resolution Spectral Functions:** To obtain smooth spectral functions from a finite time-grid, the code employs advanced interpolation (PCHIP or Cubic Spline) before performing Fourier transforms.
